@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_source">
+
+    <fragment
+        android:id="@+id/navigation_source"
+        android:name="com.example.mynews.presentasion.source.SourceFragment"
+        android:label="@string/label_source"
+        tools:layout="@layout/fragment_source" />
+
+    <fragment
+        android:id="@+id/navigation_everything"
+        android:name="com.example.mynews.presentasion.everything.EverythingFragment"
+        android:label="@string/label_everything"
+        tools:layout="@layout/fragment_everything" />
+
+    <fragment
+        android:id="@+id/navigation_topheadlines"
+        android:name="com.example.mynews.presentasion.topheadlines.TopheadlinesFragment"
+        android:label="@string/label_topheadlines"
+        tools:layout="@layout/fragment_topheadlines" />
+</navigation>
