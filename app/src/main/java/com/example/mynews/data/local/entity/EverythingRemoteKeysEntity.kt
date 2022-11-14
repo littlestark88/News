@@ -6,9 +6,9 @@ import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "EverythingRemoteKeysTable")
 data class EverythingRemoteKeysEntity(
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     @SerializedName("id")
-    val id: Int? = 0,
+    val id: String,
 
     @SerializedName("prevKey")
     val prevKey: Int?,

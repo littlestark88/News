@@ -2,6 +2,7 @@ package com.example.mynews.domain.model.response.everything
 
 data class ArticlesEverythingList(
     val id: String,
+    val source: EverythingSource? = null,
     val author: String,
     val title: String,
     val description: String,

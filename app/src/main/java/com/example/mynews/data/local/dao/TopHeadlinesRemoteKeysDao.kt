@@ -12,7 +12,7 @@ interface TopHeadlinesRemoteKeysDao {
     suspend fun insertTopHeadlinesRemoteKeys(remoteKey: List<TopHeadlinesRemoteKeysEntity>?)
 
     @Query("SELECT * FROM TopHeadlinesRemoteKeysTable WHERE id = :id")
-    fun getTopHeadlinesRemoteKeysId(id: String): TopHeadlinesRemoteKeysEntity?
+    suspend fun getTopHeadlinesRemoteKeysId(id: String): TopHeadlinesRemoteKeysEntity?
 
     @Query("DELETE FROM TopHeadlinesRemoteKeysTable")
     suspend fun deleteTopHeadlinesRemoteKeys()

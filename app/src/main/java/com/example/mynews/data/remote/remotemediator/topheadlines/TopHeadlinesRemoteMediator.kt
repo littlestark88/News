@@ -52,7 +52,7 @@ class TopHeadlinesRemoteMediator(
             database.withTransaction {
                 if(loadType == LoadType.REFRESH) {
                     database.remoteKeysTopHeadlinesDao().deleteTopHeadlinesRemoteKeys()
-                    database.getAllTopHeadlinesDao().deleteAllTopHeadlines()
+                    database.topHeadlinesDao().deleteAllTopHeadlines()
                 }
                 val prevKey = if (page == 1) null else page - 1
                 val nextKey = if (endOfPaginationReached == true) null else page + 1
@@ -60,7 +60,7 @@ class TopHeadlinesRemoteMediator(
                     TopHeadlinesRemoteKeysEntity("1",prevKey =prevKey, nextKey =nextKey)
                 }
                 database.remoteKeysTopHeadlinesDao().insertTopHeadlinesRemoteKeys(keys)
-                database.getAllTopHeadlinesDao().insertAllTopHeadlines(DataMapper.mapGetTopHeadlinesEntity(responseData.articlesTopHeadlinesList))
+                database.topHeadlinesDao().insertAllTopHeadlines(DataMapper.mapGetTopHeadlinesEntity(responseData.articlesTopHeadlinesList))
             }
             MediatorResult.Success(endOfPaginationReached = endOfPaginationReached == true)
         } catch (e: Exception) {

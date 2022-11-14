@@ -12,10 +12,10 @@ import com.example.mynews.domain.model.response.everything.ArticlesEverythingLis
 
 class EverythingAdapter(
     private val onClickListener: (ArticlesEverythingList, ActivityOptionsCompat) -> Unit
-): PagingDataAdapter<ArticlesEverythingList, EverythingAdapter.EverythingViewHolder>(DIFF_CALLBACK) {
+): PagingDataAdapter<ArticlesEverythingList, EverythingAdapter.EverythingViewHolder>(EVERYTHING_DIFF_CALLBACK) {
 
     companion object {
-        val DIFF_CALLBACK = object: DiffUtil.ItemCallback<ArticlesEverythingList>() {
+        val EVERYTHING_DIFF_CALLBACK = object: DiffUtil.ItemCallback<ArticlesEverythingList>() {
             override fun areItemsTheSame(
                 oldItem: ArticlesEverythingList,
                 newItem: ArticlesEverythingList

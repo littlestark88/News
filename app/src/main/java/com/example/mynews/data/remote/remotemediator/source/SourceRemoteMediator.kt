@@ -1,5 +1,6 @@
 package com.example.mynews.data.remote.remotemediator.source
 
+import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -52,7 +53,7 @@ class SourceRemoteMediator(
             database.withTransaction {
                 if(loadType == LoadType.REFRESH) {
                     database.remoteKeysSourceDao().deleteSourceRemoteKeys()
-                    database.getAllSourceDao().deleteAllSource()
+                    database.sourceDao().deleteAllSource()
                 }
                 val prevKey = if (page == 1) null else page - 1
                 val nextKey = if (endOfPaginationReached == true) null else page + 1
@@ -60,7 +61,8 @@ class SourceRemoteMediator(
                     SourceRemoteKeysEntity(id = it.id.toString(), prevKey =prevKey, nextKey =nextKey)
                 }
                 database.remoteKeysSourceDao().insertSourceRemoteKeys(keys)
-                database.getAllSourceDao().insertAllSource(DataMapper.mapGetSourceEntity(responseData.sourcesList))
+                Log.e("sourceRemoteMediator", "load: ${responseData.sourcesList?.size}", )
+                database.sourceDao().insertAllSource(DataMapper.mapGetSourceEntity(responseData.sourcesList))
             }
             MediatorResult.Success(endOfPaginationReached = endOfPaginationReached == true)
         } catch (e: Exception) {
@@ -70,20 +72,20 @@ class SourceRemoteMediator(
 
     private suspend fun getSourceRemoteKeysForLastItem(state: PagingState<Int, SourceEntity>): SourceRemoteKeysEntity? {
         return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()?.let { data ->
-            database.remoteKeysSourceDao().getSourceRemoteKeysId(data.id.toString())
+            database.remoteKeysSourceDao().getSourceRemoteKeysId(data.id)
         }
     }
 
     private suspend fun getSourceRemoteKeysForFirstItem(state: PagingState<Int, SourceEntity>): SourceRemoteKeysEntity? {
         return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()?.let { data ->
-            database.remoteKeysSourceDao().getSourceRemoteKeysId(data.id.toString())
+            database.remoteKeysSourceDao().getSourceRemoteKeysId(data.id)
         }
     }
 
     private suspend fun getSourceRemoteKeysClosestToCurrentPosition(state: PagingState<Int, SourceEntity>): SourceRemoteKeysEntity? {
         return state.anchorPosition?.let { position ->
             state.closestItemToPosition(position)?.id?.let { id ->
-                database.remoteKeysSourceDao().getSourceRemoteKeysId(id.toString())
+                database.remoteKeysSourceDao().getSourceRemoteKeysId(id)
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.example.mynews.data.remote.remotemediator.everything
 
+import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -52,15 +53,17 @@ class EverythingRemoteMediator(
             database.withTransaction {
                 if(loadType == LoadType.REFRESH) {
                     database.remoteKeysEverythingDao().deleteEverythingRemoteKeys()
-                    database.getAllEverythingDao().deleteAllEverything()
+                    database.everythingDao().deleteAllEverything()
                 }
                 val prevKey = if (page == 1) null else page - 1
                 val nextKey = if (endOfPaginationReached == true) null else page + 1
                 val keys = responseData.articlesEverythingList?.map {
-                    EverythingRemoteKeysEntity(id= ,prevKey =prevKey, nextKey =nextKey)
+                    EverythingRemoteKeysEntity(id= it.source?.id.toString(),prevKey =prevKey, nextKey =nextKey)
                 }
                 database.remoteKeysEverythingDao().insertEverythingRemoteKeys(keys)
-                database.getAllEverythingDao().insertAllEverything(DataMapper.mapGetEverythingEntity(responseData.articlesEverythingList))
+                Log.e("remoteKeysEverything", "load: ${responseData.articlesEverythingList?.size}", )
+//                Log.e("remoteKeysEverything", "load: id ${responseData.articlesEverythingList?.getOrNull(0)?.id}", )
+                database.everythingDao().insertAllEverything(DataMapper.mapGetEverythingEntity(responseData.articlesEverythingList))
             }
             MediatorResult.Success(endOfPaginationReached = endOfPaginationReached == true)
         } catch (e: Exception) {
@@ -70,20 +73,20 @@ class EverythingRemoteMediator(
 
     private suspend fun getEverythingRemoteKeysForLastItem(state: PagingState<Int, EverythingEntity>): EverythingRemoteKeysEntity? {
         return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()?.let { data ->
-            database.remoteKeysEverythingDao().getEverythingRemoteKeysId(data.id.toString())
+            database.remoteKeysEverythingDao().getEverythingRemoteKeysId(data.id)
         }
     }
 
     private suspend fun getEverythingRemoteKeysForFirstItem(state: PagingState<Int, EverythingEntity>): EverythingRemoteKeysEntity? {
         return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()?.let { data ->
-            database.remoteKeysEverythingDao().getEverythingRemoteKeysId(data.id.toString())
+            database.remoteKeysEverythingDao().getEverythingRemoteKeysId(data.id)
         }
     }
 
     private suspend fun getEverythingRemoteKeysClosestToCurrentPosition(state: PagingState<Int, EverythingEntity>): EverythingRemoteKeysEntity? {
         return state.anchorPosition?.let { position ->
             state.closestItemToPosition(position)?.id?.let { id ->
-                database.remoteKeysEverythingDao().getEverythingRemoteKeysId(id.toString())
+                database.remoteKeysEverythingDao().getEverythingRemoteKeysId(id)
             }
         }
     }

@@ -18,7 +18,7 @@ interface ApiService {
     ): EverythingResponse
 
     @GET("top-headlines")
-    fun getTopHeadlines(
+    suspend fun getTopHeadlines(
         @Query("country")country: String? = null,
         @Query("pageSize") pageSize: Int? = 0,
         @Query("page") page: Int? = 0,
@@ -26,10 +26,10 @@ interface ApiService {
     ): TopHeadlinesResponse
 
     @GET("top-headlines/sources")
-    fun getSourceByCategory(
-        @Query("category")category: String? = null,
+    suspend fun getSourceByCategory(
+        @Query("category")category: String? = "business",
         @Query("pageSize") pageSize: Int? = 0,
         @Query("page") page: Int? = 0,
-        @Query("apiKey")apiKey: String? = API_KEY
+        @Query("apiKey")apiKey: String? = "8007761a354748218a3d42159a38cddf"
     ): SourceResponse
 }

@@ -12,11 +12,8 @@ import com.example.mynews.data.remote.remotemediator.source.SourceRemoteMediator
 import com.example.mynews.data.remote.remotemediator.topheadlines.TopHeadlinesRemoteMediator
 import com.example.mynews.domain.INewsRepository
 import com.example.mynews.domain.model.response.everything.ArticlesEverythingList
-import com.example.mynews.domain.model.response.everything.Everything
-import com.example.mynews.domain.model.response.source.Source
 import com.example.mynews.domain.model.response.source.SourceList
 import com.example.mynews.domain.model.response.topheadlines.ArticlesTopHeadlinesList
-import com.example.mynews.domain.model.response.topheadlines.TopHeadlines
 import com.example.mynews.utils.DataMapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -32,7 +29,7 @@ class NewsRepository(
             config = PagingConfig(pageSize = 5),
             remoteMediator = EverythingRemoteMediator(newsDatabase, apiService, search),
             pagingSourceFactory = {
-                newsDatabase.getAllEverythingDao().getAllEverything()
+                newsDatabase.everythingDao().getAllEverything()
             }
         ).flow.map {
             DataMapper.mapGetEverythingPaging(it)
@@ -46,7 +43,7 @@ class NewsRepository(
             config = PagingConfig(pageSize = 5),
             remoteMediator = TopHeadlinesRemoteMediator(newsDatabase, apiService, country),
             pagingSourceFactory = {
-                newsDatabase.getAllTopHeadlinesDao().getAllTopHeadlines()
+                newsDatabase.topHeadlinesDao().getAllTopHeadlines()
             }
         ).flow.map {
             DataMapper.mapGetTopHeadlinesPaging(it)
@@ -59,7 +56,7 @@ class NewsRepository(
             config = PagingConfig(pageSize = 5),
             remoteMediator = SourceRemoteMediator(newsDatabase, apiService, category),
             pagingSourceFactory = {
-                newsDatabase.getAllSourceDao().getAllSource()
+                newsDatabase.sourceDao().getAllSource()
             }
         ).flow.map {
             DataMapper.mapGetSourcePaging(it)

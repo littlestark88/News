@@ -4,6 +4,9 @@ import com.google.gson.annotations.SerializedName
 
 data class ArticlesTopHeadlinesListItem(
 
+    @SerializedName("source")
+    val source: TopHeadlinesSourceItem?,
+
     @SerializedName("author")
     val author: String?,
 

@@ -12,7 +12,7 @@ interface SourceRemoteKeysDao {
     suspend fun insertSourceRemoteKeys(remoteKey: List<SourceRemoteKeysEntity>?)
 
     @Query("SELECT * FROM SourceRemoteKeysTable WHERE id = :id")
-    fun getSourceRemoteKeysId(id: String): SourceRemoteKeysEntity?
+    suspend fun getSourceRemoteKeysId(id: String): SourceRemoteKeysEntity?
 
     @Query("DELETE FROM SourceRemoteKeysTable")
     suspend fun deleteSourceRemoteKeys()

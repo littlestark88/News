@@ -52,9 +52,9 @@ val networkModule = module {
 }
 
 val databaseModule = module {
-    factory { get<NewsDatabase>().getAllEverythingDao() }
-    factory { get<NewsDatabase>().getAllSourceDao() }
-    factory { get<NewsDatabase>().getAllTopHeadlinesDao() }
+    factory { get<NewsDatabase>().everythingDao() }
+    factory { get<NewsDatabase>().sourceDao() }
+    factory { get<NewsDatabase>().topHeadlinesDao() }
     single {
         Room.databaseBuilder(
             androidContext(),

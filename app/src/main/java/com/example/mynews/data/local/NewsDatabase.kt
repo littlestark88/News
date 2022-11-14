@@ -19,10 +19,10 @@ import com.example.mynews.data.local.entity.*
 )
 abstract class NewsDatabase: RoomDatabase() {
 
-    abstract fun getAllEverythingDao(): EverythingDao
+    abstract fun everythingDao(): EverythingDao
     abstract fun remoteKeysEverythingDao(): EverythingRemoteKeysDao
-    abstract fun getAllSourceDao(): SourceDao
+    abstract fun sourceDao(): SourceDao
     abstract fun remoteKeysSourceDao(): SourceRemoteKeysDao
-    abstract fun getAllTopHeadlinesDao(): TopHeadlinesDao
+    abstract fun topHeadlinesDao(): TopHeadlinesDao
     abstract fun remoteKeysTopHeadlinesDao(): TopHeadlinesRemoteKeysDao
 }
