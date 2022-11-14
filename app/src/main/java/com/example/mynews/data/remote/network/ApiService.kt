@@ -30,6 +30,6 @@ interface ApiService {
         @Query("category")category: String? = "business",
         @Query("pageSize") pageSize: Int? = 0,
         @Query("page") page: Int? = 0,
-        @Query("apiKey")apiKey: String? = "8007761a354748218a3d42159a38cddf"
+        @Query("apiKey")apiKey: String? = API_KEY
     ): SourceResponse
 }

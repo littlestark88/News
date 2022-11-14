@@ -7,11 +7,12 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.mynews.R
 import com.example.mynews.databinding.NewsListItemBinding
 import com.example.mynews.domain.model.response.topheadlines.ArticlesTopHeadlinesList
 
 class TopHeadlinesAdapter(
-    private val onClickListener: (ArticlesTopHeadlinesList, ActivityOptionsCompat) -> Unit
+    private val onClickListener: (ArticlesTopHeadlinesList) -> Unit
 ): PagingDataAdapter<ArticlesTopHeadlinesList, TopHeadlinesAdapter.TopHeadlinesViewHolder>(TOPHEADLINES_DIFF_CALLBACK) {
 
     companion object {
@@ -52,7 +53,11 @@ class TopHeadlinesAdapter(
                 Glide
                     .with(itemView)
                     .load(data.urlToImage)
+                    .placeholder(R.drawable.ic_refresh)
                     .into(imgPoster)
+                container.setOnClickListener {
+                    onClickListener(data)
+                }
             }
         }
 

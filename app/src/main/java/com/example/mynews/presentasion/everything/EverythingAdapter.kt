@@ -7,11 +7,12 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.mynews.R
 import com.example.mynews.databinding.NewsListItemBinding
 import com.example.mynews.domain.model.response.everything.ArticlesEverythingList
 
 class EverythingAdapter(
-    private val onClickListener: (ArticlesEverythingList, ActivityOptionsCompat) -> Unit
+    private val onClickListener: (ArticlesEverythingList) -> Unit
 ): PagingDataAdapter<ArticlesEverythingList, EverythingAdapter.EverythingViewHolder>(EVERYTHING_DIFF_CALLBACK) {
 
     companion object {
@@ -53,7 +54,11 @@ class EverythingAdapter(
                     Glide
                         .with(itemView)
                         .load(data.urlToImage)
+                        .placeholder(R.drawable.ic_refresh)
                         .into(imgPoster)
+                    container.setOnClickListener {
+                        onClickListener(data)
+                    }
                 }
             }
     }

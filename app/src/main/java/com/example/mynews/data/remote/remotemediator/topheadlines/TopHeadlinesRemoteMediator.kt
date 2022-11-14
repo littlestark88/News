@@ -57,7 +57,7 @@ class TopHeadlinesRemoteMediator(
                 val prevKey = if (page == 1) null else page - 1
                 val nextKey = if (endOfPaginationReached == true) null else page + 1
                 val keys = responseData.articlesTopHeadlinesList?.map {
-                    TopHeadlinesRemoteKeysEntity("1",prevKey =prevKey, nextKey =nextKey)
+                    TopHeadlinesRemoteKeysEntity(it.title.toString(),prevKey =prevKey, nextKey =nextKey)
                 }
                 database.remoteKeysTopHeadlinesDao().insertTopHeadlinesRemoteKeys(keys)
                 database.topHeadlinesDao().insertAllTopHeadlines(DataMapper.mapGetTopHeadlinesEntity(responseData.articlesTopHeadlinesList))
@@ -70,20 +70,20 @@ class TopHeadlinesRemoteMediator(
 
     private suspend fun getTopHeadlinesRemoteKeysForLastItem(state: PagingState<Int, TopHeadlinesEntity>): TopHeadlinesRemoteKeysEntity? {
         return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()?.let { data ->
-            database.remoteKeysTopHeadlinesDao().getTopHeadlinesRemoteKeysId(data.id.toString())
+            database.remoteKeysTopHeadlinesDao().getTopHeadlinesRemoteKeysId(data.title)
         }
     }
 
     private suspend fun getTopHeadlinesRemoteKeysForFirstItem(state: PagingState<Int, TopHeadlinesEntity>): TopHeadlinesRemoteKeysEntity? {
         return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()?.let { data ->
-            database.remoteKeysTopHeadlinesDao().getTopHeadlinesRemoteKeysId(data.id.toString())
+            database.remoteKeysTopHeadlinesDao().getTopHeadlinesRemoteKeysId(data.title)
         }
     }
 
     private suspend fun getTopHeadlinesRemoteKeysClosestToCurrentPosition(state: PagingState<Int, TopHeadlinesEntity>): TopHeadlinesRemoteKeysEntity? {
         return state.anchorPosition?.let { position ->
-            state.closestItemToPosition(position)?.id?.let { id ->
-                database.remoteKeysTopHeadlinesDao().getTopHeadlinesRemoteKeysId(id.toString())
+            state.closestItemToPosition(position)?.title?.let { title ->
+                database.remoteKeysTopHeadlinesDao().getTopHeadlinesRemoteKeysId(title)
             }
         }
     }

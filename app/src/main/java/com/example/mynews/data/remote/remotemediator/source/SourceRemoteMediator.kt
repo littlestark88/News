@@ -58,10 +58,9 @@ class SourceRemoteMediator(
                 val prevKey = if (page == 1) null else page - 1
                 val nextKey = if (endOfPaginationReached == true) null else page + 1
                 val keys = responseData.sourcesList?.map {
-                    SourceRemoteKeysEntity(id = it.id.toString(), prevKey =prevKey, nextKey =nextKey)
+                    SourceRemoteKeysEntity(id = it.name.toString(), prevKey =prevKey, nextKey =nextKey)
                 }
                 database.remoteKeysSourceDao().insertSourceRemoteKeys(keys)
-                Log.e("sourceRemoteMediator", "load: ${responseData.sourcesList?.size}", )
                 database.sourceDao().insertAllSource(DataMapper.mapGetSourceEntity(responseData.sourcesList))
             }
             MediatorResult.Success(endOfPaginationReached = endOfPaginationReached == true)
@@ -72,20 +71,20 @@ class SourceRemoteMediator(
 
     private suspend fun getSourceRemoteKeysForLastItem(state: PagingState<Int, SourceEntity>): SourceRemoteKeysEntity? {
         return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()?.let { data ->
-            database.remoteKeysSourceDao().getSourceRemoteKeysId(data.id)
+            database.remoteKeysSourceDao().getSourceRemoteKeysId(data.name)
         }
     }
 
     private suspend fun getSourceRemoteKeysForFirstItem(state: PagingState<Int, SourceEntity>): SourceRemoteKeysEntity? {
         return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()?.let { data ->
-            database.remoteKeysSourceDao().getSourceRemoteKeysId(data.id)
+            database.remoteKeysSourceDao().getSourceRemoteKeysId(data.name)
         }
     }
 
     private suspend fun getSourceRemoteKeysClosestToCurrentPosition(state: PagingState<Int, SourceEntity>): SourceRemoteKeysEntity? {
         return state.anchorPosition?.let { position ->
-            state.closestItemToPosition(position)?.id?.let { id ->
-                database.remoteKeysSourceDao().getSourceRemoteKeysId(id)
+            state.closestItemToPosition(position)?.name?.let { name ->
+                database.remoteKeysSourceDao().getSourceRemoteKeysId(name)
             }
         }
     }

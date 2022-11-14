@@ -7,14 +7,12 @@ import com.google.gson.annotations.SerializedName
 @Entity(tableName = "TopHeadlinesTable")
 data class TopHeadlinesEntity(
 
-    @PrimaryKey
-    @SerializedName("id")
-    val id: String,
     @SerializedName("author")
     val author: String?,
 
+    @PrimaryKey
     @SerializedName("title")
-    val title: String?,
+    val title: String,
 
     @SerializedName("description")
     val description: String?,

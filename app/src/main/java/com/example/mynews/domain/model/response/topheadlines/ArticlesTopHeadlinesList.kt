@@ -1,8 +1,10 @@
 package com.example.mynews.domain.model.response.topheadlines
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class ArticlesTopHeadlinesList(
-    val id: String,
-    val sourceItem: TopHeadlinesSource? = null,
     val author: String,
     val title: String,
     val description: String,
@@ -10,4 +12,4 @@ data class ArticlesTopHeadlinesList(
     val urlToImage: String,
     val publishedApi: String,
     val content: String
-)
+): Parcelable

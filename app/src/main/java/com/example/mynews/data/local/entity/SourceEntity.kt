@@ -7,12 +7,12 @@ import com.google.gson.annotations.SerializedName
 @Entity(tableName = "SourceTable")
 data class SourceEntity (
 
-    @PrimaryKey
     @SerializedName("id")
     val id: String,
 
+    @PrimaryKey
     @SerializedName("name")
-    val name: String?,
+    val name: String,
 
     @SerializedName("description")
     val description: String?,

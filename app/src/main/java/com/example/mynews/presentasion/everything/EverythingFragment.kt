@@ -1,5 +1,6 @@
 package com.example.mynews.presentasion.everything
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,8 +8,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mynews.databinding.FragmentEverythingBinding
+import com.example.mynews.domain.model.response.everything.ArticlesEverythingList
 import com.example.mynews.presentasion.loadingstate.LoadingStateAdapter
 import com.example.mynews.presentasion.viewmodel.NewsViewModel
+import com.example.mynews.utils.Const.DATA_EVERYTHING
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import org.koin.android.ext.android.inject
@@ -21,8 +24,8 @@ class EverythingFragment : Fragment() {
     private val newsViewModel: NewsViewModel by inject()
     private val everythingAdapter: EverythingAdapter by lazy {
         EverythingAdapter(
-            onClickListener = { data, optionCompat ->
-
+            onClickListener = { data ->
+                intentDetailEverything(data)
             }
         )
     }
@@ -54,6 +57,12 @@ class EverythingFragment : Fragment() {
                 }
             )
         }
+    }
+
+    private fun intentDetailEverything(data: ArticlesEverythingList) {
+        val intent = Intent(requireActivity(), DetailEverythingActivity::class.java)
+        intent.putExtra(DATA_EVERYTHING, data)
+        startActivity(intent)
     }
 
     override fun onDestroyView() {

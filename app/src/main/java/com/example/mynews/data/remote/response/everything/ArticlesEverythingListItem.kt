@@ -4,9 +4,6 @@ import com.google.gson.annotations.SerializedName
 
 data class ArticlesEverythingListItem(
 
-    @SerializedName("source")
-    val source: EverythingSourceItem?,
-
     @SerializedName("author")
     val author: String?,
 

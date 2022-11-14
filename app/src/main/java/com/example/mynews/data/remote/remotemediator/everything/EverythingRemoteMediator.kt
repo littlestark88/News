@@ -58,11 +58,9 @@ class EverythingRemoteMediator(
                 val prevKey = if (page == 1) null else page - 1
                 val nextKey = if (endOfPaginationReached == true) null else page + 1
                 val keys = responseData.articlesEverythingList?.map {
-                    EverythingRemoteKeysEntity(id= it.source?.id.toString(),prevKey =prevKey, nextKey =nextKey)
+                    EverythingRemoteKeysEntity(id= it.title.toString(),prevKey =prevKey, nextKey =nextKey)
                 }
                 database.remoteKeysEverythingDao().insertEverythingRemoteKeys(keys)
-                Log.e("remoteKeysEverything", "load: ${responseData.articlesEverythingList?.size}", )
-//                Log.e("remoteKeysEverything", "load: id ${responseData.articlesEverythingList?.getOrNull(0)?.id}", )
                 database.everythingDao().insertAllEverything(DataMapper.mapGetEverythingEntity(responseData.articlesEverythingList))
             }
             MediatorResult.Success(endOfPaginationReached = endOfPaginationReached == true)
@@ -73,20 +71,20 @@ class EverythingRemoteMediator(
 
     private suspend fun getEverythingRemoteKeysForLastItem(state: PagingState<Int, EverythingEntity>): EverythingRemoteKeysEntity? {
         return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()?.let { data ->
-            database.remoteKeysEverythingDao().getEverythingRemoteKeysId(data.id)
+            database.remoteKeysEverythingDao().getEverythingRemoteKeysId(data.title)
         }
     }
 
     private suspend fun getEverythingRemoteKeysForFirstItem(state: PagingState<Int, EverythingEntity>): EverythingRemoteKeysEntity? {
         return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()?.let { data ->
-            database.remoteKeysEverythingDao().getEverythingRemoteKeysId(data.id)
+            database.remoteKeysEverythingDao().getEverythingRemoteKeysId(data.title)
         }
     }
 
     private suspend fun getEverythingRemoteKeysClosestToCurrentPosition(state: PagingState<Int, EverythingEntity>): EverythingRemoteKeysEntity? {
         return state.anchorPosition?.let { position ->
-            state.closestItemToPosition(position)?.id?.let { id ->
-                database.remoteKeysEverythingDao().getEverythingRemoteKeysId(id)
+            state.closestItemToPosition(position)?.title?.let { title ->
+                database.remoteKeysEverythingDao().getEverythingRemoteKeysId(title)
             }
         }
     }

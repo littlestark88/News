@@ -1,8 +1,10 @@
 package com.example.mynews.domain.model.response.everything
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class ArticlesEverythingList(
-    val id: String,
-    val source: EverythingSource? = null,
     val author: String,
     val title: String,
     val description: String,
@@ -10,4 +12,4 @@ data class ArticlesEverythingList(
     val urlToImage: String,
     val publishedApi: String,
     val content: String
-)
+): Parcelable

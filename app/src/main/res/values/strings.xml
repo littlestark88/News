@@ -9,6 +9,7 @@
     <string name="label_everything">Everything</string>
     <string name="label_topheadlines">Topheadlines</string>
     <string name="label_image_poster">Image Poster</string>
+    <string name="label_image_photo">Image Photo</string>
 
     <string-array name="Category">
         <item>business</item>
